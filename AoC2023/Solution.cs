@@ -5,7 +5,7 @@ public abstract class Solution
     public abstract string Part1();
     public abstract string Part2();
 
-    protected IEnumerable<string> ParseInput(string inputFilePath)
+    protected virtual IEnumerable<string> ParseInput(string inputFilePath)
     {
         return File.ReadLines(inputFilePath);
     }
