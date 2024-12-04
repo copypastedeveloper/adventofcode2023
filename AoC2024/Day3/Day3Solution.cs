@@ -21,9 +21,7 @@ public class Day3Solution : Solution
             .Split(["|do|","|dont|"],StringSplitOptions.RemoveEmptyEntries)
             .Where(l => !l.StartsWith("don't()"))
             .Select(x => x.Split(")")).SelectMany(x => x)
-            .Select(x => x.LastIndexOf("mul(") > -1 ? new string(x.TakeLast(x.Length-(x.LastIndexOf("mul(") + 4)).ToArray())
-                    : x.LastIndexOf("do(") > -1 ? "do" : x.LastIndexOf("don't(") > -1 ? "dont"
-                    : null)
+            .Select(x => x.LastIndexOf("mul(") > -1 ? new string(x.TakeLast(x.Length-(x.LastIndexOf("mul(") + 4)).ToArray()) : null)
             .Where(x => x is not null && x.Contains(',') && int.TryParse(x.Replace(",",""), out _) && !x.Contains(' '))
             .Select(x => x.Split(',').Select(int.Parse).Aggregate((acc,n) => acc * n))
             .Sum();
