@@ -5,7 +5,6 @@ public class Day2Solution : Solution
     record Report
     {
         public List<Level> Levels { get; set; }
-
         public Direction Direction => Levels[0] > Levels[1] ? Direction.Descending : Direction.Ascending;
         public bool Safe { get; set; }
         public int Id { get; set; }
