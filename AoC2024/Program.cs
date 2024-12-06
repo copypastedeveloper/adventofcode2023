@@ -1,21 +1,13 @@
 ﻿
 
+using System.Reflection;
 using AoC2024;
-using AoC2024.Day1;
-using AoC2024.Day2;
 
-Solution s = new Day1Solution();
+var solutions = Assembly.GetAssembly(typeof(Solution))?.GetTypes().Where(t => t.BaseType == typeof(Solution)).OrderBy(x => x.Name);
 
-Console.WriteLine(s.Part1());
-Console.WriteLine(s.Part2());
-
-
-s = new Day2Solution();
-
-Console.WriteLine(s.Part1());
-Console.WriteLine(s.Part2());
-
-s = new Day3Solution();
-
-Console.WriteLine(s.Part1());
-Console.WriteLine(s.Part2());
+foreach (var solutionType in solutions!)
+{
+    var solution = (Solution)Activator.CreateInstance(solutionType)!;
+    Console.WriteLine(solution.Part1());
+    Console.WriteLine(solution.Part2());
+}

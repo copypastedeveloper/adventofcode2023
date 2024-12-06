@@ -4,7 +4,7 @@ public class Day2Solution : Solution
 {
     record Report
     {
-        public List<Level> Levels { get; set; }
+        public List<int> Levels { get; set; }
         public Direction Direction => Levels[0] > Levels[1] ? Direction.Descending : Direction.Ascending;
         public bool Safe { get; set; }
         public int Id { get; set; }
@@ -14,17 +14,11 @@ public class Day2Solution : Solution
     {
         Ascending,Descending
     }
-    public class Level
-    {
-        public int Number { get; set; }
-        public static implicit operator int(Level l) => l.Number;
-        public static implicit operator Level(int i) => new() {Number = i};
-    }
     
     public override string Part1()
     {
         var answer = ParseInput("Day2/input.txt")
-            .Select( r => new Report {Levels = r.Split(" ").Select(x => (Level)int.Parse(x)).ToList()})
+            .Select( r => new Report {Levels = r.Split(" ").Select(int.Parse).ToList()})
             .Select(r => r with {Safe = r.Levels.Select((x,i) => 
                 i == 0 ? 1 : 
                     r.Direction == Direction.Descending ? 
@@ -38,7 +32,7 @@ public class Day2Solution : Solution
     public override string Part2()
     {
         var answer = ParseInput( "Day2/input.txt")
-            .Select((r,i) => new Report { Levels = r.Split(" ").Select(x => (Level)int.Parse(x)).ToList(), Id = i })
+            .Select((r,i) => new Report { Levels = r.Split(" ").Select(int.Parse).ToList(), Id = i })
             .Select(r =>r.Levels.Select((_,i) => new Report {Id = r.Id, Levels = r.Levels.Where((_,ix) => ix != i).ToList()}))
             .SelectMany(r => r)
             .Select(r => r with {Safe = r.Levels.Select((x,i) => 
