@@ -36,7 +36,7 @@ public class Day5Solution : Solution
             .Where(x => x.Requirement.ToList().All(y => x.Sequence.Contains(y)) 
                         && x.Sequence.ToList().IndexOf(x.Requirement.FirstPage) > x.Sequence.ToList().IndexOf(x.Requirement.SecondPage))
             .GroupBy(x => string.Join('|',x.Sequence))
-            .Select(x => x.Key.Split("|").Select(int.Parse)
+            .Select(x => x.First().Sequence
                 .OrderBy(y=> y,Comparer<int>.Create((i, ii) => 
                     x.Select(y => y.Requirement).Any(y => y.FirstPage == ii && y.SecondPage == i) 
                         ? 1 
