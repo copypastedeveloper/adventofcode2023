@@ -16,23 +16,9 @@ public class Day6Solution : Solution
         public override string ToString() => $"({x}:{y})";
     };
 
-    record Iteration(Grid Grid, Coordinate[] VisitedPositions)
-    {
-        public override string ToString()
-        {
-            return new Grid(Grid.Select(x => VisitedPositions.Last() == new Coordinate(x.Line, x.Index) ? x with{Character = '>'} :
-                VisitedPositions.Contains(new Coordinate(x.Line, x.Index)) ? x with {Character = 'x'} : x)).ToString();
-        }
-    };
+    record Iteration(Grid Grid, Coordinate[] VisitedPositions);
 
-    class Grid(IEnumerable<CharacterMap> map) : List<CharacterMap>(map)
-    {
-        public override string ToString()
-        {
-             return string.Join(Environment.NewLine,
-                this.GroupBy(x => x.Line).Select(x => new string(x.Select(y => y.Character).ToArray())));
-        }
-    }
+    class Grid(IEnumerable<CharacterMap> map) : List<CharacterMap>(map);
     
     public override string Part1()
     {
@@ -58,7 +44,7 @@ public class Day6Solution : Solution
             .Aggregate((acc, iteration) => 
                 acc.VisitedPositions.Last().x != GridSize -1 && acc.VisitedPositions.Last().y != GridSize -1
                 ? iteration with {VisitedPositions = acc.VisitedPositions.Select(x => x.Rotate()).ToArray().Concat(iteration.Grid
-                    .Where(l => l.Line == acc.VisitedPositions?.Last().Rotate().x)
+                    .Where(l => l.Line == acc.VisitedPositions.Last().Rotate().x)
                     .OrderBy(x => x.Index)
                     .Skip(acc.VisitedPositions.Last().Rotate().y)
                     .TakeWhile(x => x.Character != '#')
